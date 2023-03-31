@@ -1,13 +1,10 @@
-package Model;
+package Model.LivingRoomClasses;
 
 
 import java.util.ArrayList;
 
+
 public class LivingRoomBoard {
-
-
-    private boolean refillToDo;
-    private boolean youCanExtract;
 
 
     private final TileSpecification[][] initial_config = {
@@ -46,7 +43,7 @@ public class LivingRoomBoard {
     public void setItemOnBoard(TileType item, int i, int j) {
 
         this.livingRoomBoard[i][j].setItem(item);
-        this.livingRoomBoard[i][j].setTilePresent();
+
 
     }
 
@@ -75,7 +72,7 @@ public class LivingRoomBoard {
     public boolean doINeedRefill() {
 
 
-        this.refillToDo = true;
+
 
         for (int i = 0; i < this.livingRoomBoard.length; i++) {
 
@@ -85,63 +82,55 @@ public class LivingRoomBoard {
                 switch (this.livingRoomBoard[i][j].getTileSpecification()) {
 
                     case TWO: {
-                        if (this.livingRoomBoard[i - 1][j].isTilePresent()) {
-                            this.refillToDo = false;
-                            break;
 
-                            // potrei anche scrivere direttamente return false
-                            // ed evitare di tenere refillToDo Come una variabile booleana
-                        }
-                        if (this.livingRoomBoard[i][j + 1].isTilePresent()) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if (this.livingRoomBoard[i + 1][j].isTilePresent()) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if (this.livingRoomBoard[i][j - 1].isTilePresent()) {
-                            this.refillToDo = false;
-                            break;
-                        }
+                        if (this.livingRoomBoard[i - 1][j].isTilePresent())
+                            return false;
+
+
+                        if (this.livingRoomBoard[i][j + 1].isTilePresent())
+                            return false;
+
+
+                        if (this.livingRoomBoard[i + 1][j].isTilePresent())
+                            return false;
+
+
+                        if (this.livingRoomBoard[i][j - 1].isTilePresent())
+                            return false;
+
+
 
                     }
+
                     case THREE: {
-                        if ((i - 1) > 0 && (this.livingRoomBoard[i - 1][j].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((j + 1) < 8 && (this.livingRoomBoard[i][j + 1].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((i + 1) < 8 && (this.livingRoomBoard[i + 1][j].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((j - 1) > 0 && (this.livingRoomBoard[i][j - 1].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
+
+                        if ((i - 1) > 0 && (this.livingRoomBoard[i - 1][j].isTilePresent()))
+                            return false;
+
+                        if ((j + 1) < 8 && (this.livingRoomBoard[i][j + 1].isTilePresent()))
+                            return false;
+
+                        if ((i + 1) < 8 && (this.livingRoomBoard[i + 1][j].isTilePresent()))
+                            return false;
+
+                        if ((j - 1) > 0 && (this.livingRoomBoard[i][j - 1].isTilePresent()))
+                            return false;
 
                     }
+
                     case FOUR: {
-                        if ((i - 1) > 0 && (this.livingRoomBoard[i - 1][j].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((j + 1) < 8 && (this.livingRoomBoard[i][j + 1].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((i + 1) < 8 && (this.livingRoomBoard[i + 1][j].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
-                        if ((j - 1) > 0 && (this.livingRoomBoard[i][j - 1].isTilePresent())) {
-                            this.refillToDo = false;
-                            break;
-                        }
+                        if ((i - 1) > 0 && (this.livingRoomBoard[i - 1][j].isTilePresent()))
+                            return false;
+
+                        if ((j + 1) < 8 && (this.livingRoomBoard[i][j + 1].isTilePresent()))
+                            return false;
+
+                        if ((i + 1) < 8 && (this.livingRoomBoard[i + 1][j].isTilePresent()))
+                            return false;
+
+                        if ((j - 1) > 0 && (this.livingRoomBoard[i][j - 1].isTilePresent()))
+                            return false;
+
 
                     }
                     case OUT: {
@@ -151,13 +140,12 @@ public class LivingRoomBoard {
             }
         }
 
-        return this.refillToDo;
+        return true;
 
     }
 
-    public boolean canIExtractTiles (ArrayList<TileToExtract> listaTessere){
+    public boolean canIExtractTiles (ArrayList<TileToExtract> listaTessere) {
 
-        this.youCanExtract= true;
 
         int Column1 = listaTessere.get(0).getColumn();
         int Row1 = listaTessere.get(0).getRow();
@@ -169,6 +157,7 @@ public class LivingRoomBoard {
         int Row3 = listaTessere.get(3).getRow();
 
 
+        boolean youCanExtract = false;
 
         int dimensioneArrayList = listaTessere.size();
 
@@ -177,37 +166,9 @@ public class LivingRoomBoard {
             // in questo caso controllo solo se ha almeno un lato libero
             case 1: {
 
-                if ((Row1 - 1) < 0) {
-                    break;
-                } else {
-
-                    if (!(this.livingRoomBoard[Row1 - 1][Column1].isTilePresent()))
-                        youCanExtract = true;
-                }
-
-                if (Column1 + 1 > 8) {
-                    break;
-                } else {
-
-                    if (!(this.livingRoomBoard[Row1][Column1 + 1].isTilePresent()))
-                        youCanExtract = true;
-                }
-
-                if (Row1 + 1 > 8) {
-                    break;
-                } else {
-
-                    if (!(this.livingRoomBoard[Row1 + 1][Column1].isTilePresent()))
-                        youCanExtract = true;
-                }
-
-                if (Column1 - 1 < 0) {
-                    break;
-                } else {
-
-                    if (!(this.livingRoomBoard[Row1][Column1 - 1].isTilePresent()))
-                        youCanExtract = true;
-                }
+                if (doesTileHaveFreeEdge(Column1, Row1))
+                    return true;
+                break;
             }
 
             case 2: {
@@ -216,7 +177,10 @@ public class LivingRoomBoard {
 
                     if ((Column1 == Column2 + 1) || (Column1 == Column2 - 1)) {
 
-                        //analisi tessere libere
+                        if (doesTileHaveFreeEdge(Column1, Row1) && doesTileHaveFreeEdge(Column2, Row2))
+                            return true;
+
+
                     }
                 }
 
@@ -224,35 +188,75 @@ public class LivingRoomBoard {
 
                     if ((Row1 == Row2 + 1) || (Row1 == Row2 - 1)) {
 
-                        //analisi tessere libere
+                        if (doesTileHaveFreeEdge(Column1, Row1) && doesTileHaveFreeEdge(Column2, Row2))
+                            return true;
+                    }
+                }
+            }
+
+            case 3: {
+
+                if ((Row1 == Row2) && (Row2 == Row3)) {
+
+                    if (((Column3 == Column1 + 2) && (Column2 == Column1 + 1)) || ((Column3 == Column1 + 1) && (Column2 == Column1 + 2)) || ((Column3 == Column1 + 1) && (Column2 == Column1 - 1)) ||
+                            ((Column3 == Column1 - 1) && (Column2 == Column1 + 1)) || ((Column3 == Column1 - 1) && (Column2 == Column1 - 2)) || ((Column3 == Column1 - 2) && (Column2 == Column1 - 1))) {
+
+                        if (doesTileHaveFreeEdge(Column1, Row1) && doesTileHaveFreeEdge(Column2, Row2) && doesTileHaveFreeEdge(Column3, Row3))
+                            return true;
                     }
                 }
 
+                if  ((Column1 == Column2) && (Column2 == Column3)) {
+
+                    if (((Row3 == Row1 + 2) && (Row2 == Row1 + 1)) || ((Row3 == Row1 + 1) && (Row2 == Row1 + 2)) || ((Row3 == Row1 + 1) && (Row2 == Row1 - 1)) ||
+                            ((Row3 == Row1 - 1) && (Row2 == Row1 + 1)) || ((Row3 == Row1 - 1) && (Row2 == Row1 - 2)) || ((Row3 == Row1 - 2) && (Row2 == Row1 - 1))) {
+
+                        if (doesTileHaveFreeEdge(Column1, Row1) && doesTileHaveFreeEdge(Column2, Row2) && doesTileHaveFreeEdge(Column3, Row3))
+                            return true;
+                    }
+                }
             }
-
-
-
-
-
-
-
-
-
-
-            }
-
-
-
-            case 3:
-
-            default:
-                break;
-
-            }
-
         }
+
+        return false;
+
     }
+
+
+    private boolean doesTileHaveFreeEdge(int Column , int Row ){
+
+        if (( Row - 1 ) < 0 )
+            return true;
+
+        if (!(this.livingRoomBoard[Row - 1][Column].isTilePresent()))
+            return true;
+
+        if (( Column + 1 ) > 8 )
+            return true;
+
+        if (!(this.livingRoomBoard[Row][Column + 1].isTilePresent()))
+            return true;
+
+        if (( Column - 1 ) < 0 )
+            return true;
+
+        if (!(this.livingRoomBoard[Row][Column - 1].isTilePresent()))
+            return true;
+
+        return false;
+
+    }
+
+
+
+
+
+
+
+
+
 }
+
 
 
 

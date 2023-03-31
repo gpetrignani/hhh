@@ -1,10 +1,9 @@
-package Model;
+package Model.LivingRoomClasses;
 
 public class LivingRoomSlot {
 
     private final TileSpecification tileSpecification;
     private TileType item;
-    private boolean tilePresent;
     private boolean extractable;
 
     /**
@@ -36,17 +35,18 @@ public class LivingRoomSlot {
     }
 
 
-    public void setTilePresent() {
-        this.tilePresent = true;
-    }
+
 
 
     public boolean isTilePresent() {
-       if(tilePresent){
-           return true;
-       }
-       else
+
+        if(this.tileSpecification == TileSpecification.OUT){
            return false;
+        }
+        if(this.item == null){
+            return false;
+        }
+        return true;
     }
 
 

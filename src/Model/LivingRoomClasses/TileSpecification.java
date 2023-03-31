@@ -1,4 +1,4 @@
-package Model;
+package Model.LivingRoomClasses;
 
 public enum TileSpecification { OUT, TWO, THREE, FOUR }
 

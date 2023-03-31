@@ -1,4 +1,4 @@
-package Model;
+package Model.LivingRoomClasses;
 
 public class TileToExtract {
 
